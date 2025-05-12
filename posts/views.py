@@ -17,10 +17,9 @@ from posts.permissions import IsAuthorOrReadOnly
 
 @extend_schema(
     tags=["Posts"],
-    request=PostCreateSerializer,
-    responses={201: PostSerializer},
-    summary="Create a new post",
-    description="Create a new post",
+    responses={200: PostSerializer},
+    summary="List all published posts",
+    description="List all published posts with optional hashtag filtering",
 )
 class PostListView(generics.ListAPIView):
     serializer_class = PostSerializer
@@ -34,6 +33,7 @@ class PostListView(generics.ListAPIView):
             queryset = queryset.filter(content__icontains=f"#{hashtag}")
 
         return queryset
+
 
 @extend_schema(
     tags=["Posts"],
