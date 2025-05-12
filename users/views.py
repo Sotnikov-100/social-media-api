@@ -4,8 +4,8 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
-from .models import UserProfile
-from .serializers import (
+from users.models import UserProfile
+from users.serializers import (
     UserSerializer,
     RegisterSerializer,
     UserProfileSerializer,
