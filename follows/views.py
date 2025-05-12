@@ -1,13 +1,21 @@
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from follows.models import Follow
-from follows.serializers import FollowSerializer
+from follows.serializers import FollowSerializer, FollowCreateSerializer
 from users.serializers import UserSerializer
 
 
+@extend_schema(
+    request=FollowCreateSerializer,
+    responses=FollowSerializer,
+    tags=["follows"],
+    summary="Follow a user",
+    description="Follow a user",
+)
 class FollowUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -50,6 +58,12 @@ class FollowUserView(APIView):
             )
 
 
+@extend_schema(
+    responses=UserSerializer,
+    tags=["follows"],
+    summary="Get following users",
+    description="Get following users",
+)
 class FollowingListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
@@ -58,6 +72,12 @@ class FollowingListView(generics.ListAPIView):
         return User.objects.filter(followers__follower=self.request.user)
 
 
+@extend_schema(
+    responses=UserSerializer,
+    tags=["follows"],
+    summary="Get followers users",
+    description="Get followers users",
+)
 class FollowersListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
