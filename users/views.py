@@ -1,10 +1,7 @@
 from django.contrib.auth.models import User
 from drf_spectacular.utils import extend_schema
 from rest_framework.filters import SearchFilter
-from rest_framework import generics, permissions, status
-from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.views import APIView
+from rest_framework import generics, permissions
 from users.models import UserProfile
 from users.serializers import (
     UserSerializer,
@@ -25,7 +22,6 @@ class RegisterView(generics.CreateAPIView):
 class UserProfileView(generics.RetrieveUpdateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
-    permission_classes = (permissions.IsAuthenticated,)
 
     def get_object(self):
         return self.request.user.profile
@@ -40,13 +36,11 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
 class UserDetailView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticated,)
 
 
 @extend_schema(request=UserSerializer)
 class UserSearchView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticated,)
     search_fields = ["username", "email", "profile__bio"]
     filter_backends = [SearchFilter]

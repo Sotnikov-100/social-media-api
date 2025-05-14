@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
-from rest_framework import generics, permissions, status
+from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
@@ -17,7 +17,6 @@ from users.serializers import UserSerializer
     description="Follow a user",
 )
 class FollowUserView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
         user_to_follow = get_object_or_404(User, pk=pk)
@@ -65,7 +64,6 @@ class FollowUserView(APIView):
     description="Get following users",
 )
 class FollowingListView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
 
     def get_queryset(self):
@@ -79,7 +77,6 @@ class FollowingListView(generics.ListAPIView):
     description="Get followers users",
 )
 class FollowersListView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
 
     def get_queryset(self):

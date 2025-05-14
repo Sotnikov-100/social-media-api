@@ -23,7 +23,6 @@ from posts.permissions import IsAuthorOrReadOnly
 )
 class PostListView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         queryset = Post.objects.filter(is_published=True)
@@ -43,7 +42,6 @@ class PostListView(generics.ListAPIView):
 )
 class FeedView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         following_users = self.request.user.following.values_list("followed", flat=True)
@@ -62,7 +60,6 @@ class FeedView(generics.ListAPIView):
 )
 class MyPostsView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         return Post.objects.filter(author=self.request.user)
@@ -77,7 +74,6 @@ class MyPostsView(generics.ListAPIView):
 )
 class PostCreateView(generics.CreateAPIView):
     serializer_class = PostCreateSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -111,7 +107,6 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     description="Like a post",
 )
 class LikePostView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
@@ -152,7 +147,6 @@ class LikePostView(APIView):
 )
 class LikedPostsView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         liked_posts_ids = self.request.user.likes.values_list("post", flat=True)
@@ -167,7 +161,6 @@ class LikedPostsView(generics.ListAPIView):
 )
 class CommentListView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         return Comment.objects.filter(post_id=self.kwargs["pk"])
