@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.env
+
+# Development and local files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Database
+*.sqlite3
+db.sqlite3
+
+# Media and static files (will be mounted as volumes)
+media/
+static/
+
+# Tests
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Logs
+*.log
+logs/
+
+# Documentation
+docs/
+
+# Other unnecessary files
+*.bak
+*.tmp
+LICENSE
